@@ -1,0 +1,77 @@
+{
+  "type": "MaxHistoryTrackerFeaturizer",
+  "state_featurizer": {
+    "action_texts": [],
+    "entity_tag_specs": [],
+    "feature_states": {
+      "intent": {
+        "ask_about": 0,
+        "back": 1,
+        "contacts": 2,
+        "experience": 3,
+        "experience_time": 4,
+        "get_jobs": 5,
+        "goodbye": 6,
+        "greet": 7,
+        "name": 8,
+        "nlu_fallback": 9,
+        "out_of_scope": 10,
+        "restart": 11,
+        "salary": 12,
+        "session_start": 13,
+        "skills": 14,
+        "vacancy": 15,
+        "work_format": 16
+      },
+      "action_name": {
+        "action_listen": 0,
+        "action_restart": 1,
+        "action_session_start": 2,
+        "action_default_fallback": 3,
+        "action_deactivate_loop": 4,
+        "action_revert_fallback_events": 5,
+        "action_default_ask_affirmation": 6,
+        "action_default_ask_rephrase": 7,
+        "action_two_stage_fallback": 8,
+        "action_unlikely_intent": 9,
+        "action_back": 10,
+        "...": 11,
+        "action_extract_slots": 12,
+        "utter_ask_name": 13,
+        "utter_ask_phone_number": 14,
+        "utter_ask_salary": 15,
+        "utter_ask_skills": 16,
+        "utter_ask_work_format": 17,
+        "utter_check_experience": 18,
+        "utter_check_experience_time": 19,
+        "utter_goodbye": 20,
+        "utter_greet": 21,
+        "utter_offer_jobs": 22
+      },
+      "entities": {
+        "job_position": 0,
+        "name": 1,
+        "office_days": 2,
+        "phone_number": 3,
+        "salary": 4,
+        "skill": 5,
+        "years": 6
+      },
+      "slots": {
+        "name_0": 0,
+        "phone_0": 1,
+        "salary_0": 2,
+        "salary_1": 3,
+        "positions_0": 4,
+        "work_skills_0": 5,
+        "work_experience_0": 6,
+        "work_experience_1": 7,
+        "office_days_0": 8,
+        "office_days_1": 9
+      },
+      "active_loop": {}
+    }
+  },
+  "remove_duplicates": true,
+  "max_history": 5
+}

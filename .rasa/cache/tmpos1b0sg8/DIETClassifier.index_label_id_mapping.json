@@ -1,0 +1,9 @@
+{
+  "0": "ask_phone",
+  "1": "ask_salary",
+  "2": "ask_skills",
+  "3": "ask_work_format",
+  "4": "check_experience",
+  "5": "greet",
+  "6": "offer_jobs"
+}

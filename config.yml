@@ -1,0 +1,58 @@
+# The config recipe.
+# https://rasa.com/docs/rasa/model-configuration/
+recipe: default.v1
+
+# The assistant project unique identifier
+# This default value must be replaced with a unique assistant name within your deployment
+assistant_id: 20250208-135617-grouchy-gravel
+
+# Configuration for Rasa NLU.
+# https://rasa.com/docs/rasa/nlu/components/
+language: ru
+
+pipeline:
+- name: "SpacyNLP"
+  model: "ru_core_news_lg"
+  case_sensitive: false
+- name: "SpacyTokenizer"
+  "intent_tokenization_flag": false
+  "intent_split_symbol": "_"
+  "token_pattern": None
+- name: "SpacyFeaturizer"
+  "pooling": "mean"
+- name: "RegexFeaturizer"
+  "case_sensitive": false
+  "use_word_boundaries": true
+- name: "CountVectorsFeaturizer"
+- name: DIETClassifier
+  epochs: 50
+  batch_strategy: "sequence"
+  similarity_type: "inner"
+  maximum_positive_similarity: 0.9
+  maximum_negative_similarity: 0
+  constrain_similarities: true
+  model_confidence: "softmax"
+  ranking_length: 3
+  entity_recognition: false
+  evaluate_every_number_of_epochs: -1
+  use_masked_language_model: true
+- name: "SpacyEntityExtractor"
+  # dimensions to extract
+  dimensions: ["PERSON", "LOC", "ORG", "PRODUCT", "LANGUAGE", "PERCENT"]
+- name: FallbackClassifier
+
+# Configuration for Rasa Core.
+# https://rasa.com/docs/rasa/core/policies/
+policies: null
+# # No configuration for policies was provided. The following default policies were used to train your model.
+# # If you'd like to customize them, uncomment and adjust the policies.
+# # See https://rasa.com/docs/rasa/policies for more information.
+#   - name: MemoizationPolicy
+#   - name: RulePolicy
+#   - name: UnexpecTEDIntentPolicy
+#     max_history: 5
+#     epochs: 100
+#   - name: TEDPolicy
+#     max_history: 5
+#     epochs: 100
+#     constrain_similarities: true
