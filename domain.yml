@@ -1,28 +1,21 @@
-version: "3.1"
+version: "2.0"
 
 intents:
-  - greet
-  - name
-  - contacts
-  - experience
-  - experience_time
-  - get_jobs
-  - vacancy
-  - skills
-  - salary
-  - work_format
-  - goodbye
-  - ask_about
-  - out_of_scope
+- greet
+- inform_contacts
+- get_jobs
+- inform_job_info
+- goodbye
 
 entities:
- - name
- - phone_number
- - salary
- - job_position
- - years
- - office_days
- - skill
+- name
+- phone_number
+- salary
+- job_position
+- years
+- office_days
+- skill
+- vacancy
 
 slots:
   name:
@@ -31,7 +24,7 @@ slots:
     - type: from_entity
       entity: name
   phone:
-    type: text
+    type: any
     mappings:
     - type: from_entity
       entity: phone_number
@@ -42,6 +35,11 @@ slots:
     mappings:
     - type: from_entity
       entity: salary
+  wanted_position:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: vacancy
   positions:
     type: list
     mappings:
@@ -68,7 +66,23 @@ slots:
       entity: office_days
 
 
-  
+forms:
+  contacts_form:
+    ignored_intents: 
+    - inform_job_info
+    required_slots:
+      - name 
+      - phone
+      - wanted_position
+  job_info_form:
+    ignored_intents: 
+    - inform_contacts
+    required_slots:
+      - positions
+      - work_skills
+      - work_experience
+      - salary
+      - office_days
 
 responses:
   utter_greet:
@@ -80,22 +94,24 @@ responses:
     - text: "Пожалуйста, представьтесь: как ваше имя?"
     - text: "Могу я узнать ваше имя?"
     - text: "Как мы можем вас называть?"
-  utter_ask_phone_number:
+  utter_ask_phone:
     - text: "Давайте начнем собеседование. Какой у вас номер телефона?"
     - text: "Какой у вас номер телефона?"
     - text: "Не подскажете, какой у вас номер телефона?"
     - text: "Могу я узнать ваш номер телефона?"
     - text: "Какой у вас контактный номер?"
-  utter_offer_jobs:
+  utter_ask_wanted_position:
     - text: "У нас есть следующие вакансии: \n Project Manager \n Data Engineer \n Data Analyst \n Data Scientist \n MLOps Engineer \nПожалуйста, выберите одну из них."
-  utter_check_experience:
+  utter_submit_contacts:
+    - text: Вас зовут {name}, ваш номер {phone} и вы хотите на позицию {wanted_position}?
+  utter_ask_positions:
     - text: "Расскажите, пожалуйста, о вашем предыдущем опыте работы, на каких позицих работали?"
     - text: "Интересно узнать о вашем трудовом опыте. Не могли бы вы рассказать о каждой из должностей?"
     - text: "Пожалуйста, поделитесь информацией о вашем профессиональном опыте. Кем и где вы работали ранее?"
-  utter_check_experience_time:
+  utter_ask_work_experience:
     - text: "Каков ваш сумарный стаж по профилю (лет)?"
     - text: "Сколько лет вы суммарно отработали по профильной специальности?"
-  utter_ask_skills:
+  utter_ask_work_skills:
     - text: "Пожалуйста, перечислите ваши навыки для выбранной вакансии."
     - text: "Какими навыками вы обладаете, которые могут быть полезны для этой позиции?"
     - text: "Пожалуйста, расскажите о своих основных навыках и компетенциях."
@@ -106,13 +122,18 @@ responses:
     - text: "Какую зарплату вы рассчитываете получать на данной должности?"
     - text: "Пожалуйста, поделитесь вашими ожиданиями по уровню зарплаты."
     - text: "Какова ваша желаемая зарплата на этой позиции?"
-  utter_ask_work_format:
+  utter_ask_office_days:
     - text: "Сколько дней в неделю вы готовы работать из офиса?"
     - text: "Как часто вы готовы появляться в офисе (раз в неделю)?"
   utter_goodbye:
     - text: "Спасибо за участие! Удачи!"
     - text: "Благодарим вас за интерес к вакансии! Мы свяжемся с вами позже."
     - text: "Спасибо за ваш интерес к позции! Всего доброго."
+
+actions:
+- utter_goodbye
+- utter_greet
+- utter_submit_contacts
 
 session_config:
   session_expiration_time: 60

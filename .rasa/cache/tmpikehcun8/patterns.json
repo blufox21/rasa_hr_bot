@@ -1,0 +1,6 @@
+[
+  {
+    "name": "phone_number",
+    "pattern": "\\+7\\d{10}"
+  }
+]

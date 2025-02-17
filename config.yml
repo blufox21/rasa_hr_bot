@@ -11,35 +11,27 @@ assistant_id: 20250208-135617-grouchy-gravel
 language: ru
 
 pipeline:
-- name: "SpacyNLP"
+- name: SpacyNLP
   model: "ru_core_news_lg"
   case_sensitive: false
-- name: "SpacyTokenizer"
-  "intent_tokenization_flag": false
-  "intent_split_symbol": "_"
-  "token_pattern": None
-- name: "SpacyFeaturizer"
-  "pooling": "mean"
-- name: "RegexFeaturizer"
-  "case_sensitive": false
-  "use_word_boundaries": true
-- name: "CountVectorsFeaturizer"
+- name: SpacyTokenizer
+  intent_tokenization_flag: true
+  intent_split_symbol: "_"
+  token_pattern: None
+- name: SpacyFeaturizer
+  pooling: "mean"
+- name: RegexFeaturizer
+  case_sensitive: False
+- name: RegexEntityExtractor
+  # text will be processed with case insensitive as default
+  case_sensitive: False
+  # use regexes to extract entities
+  use_regexes: True
+  overlap_strategy: "intersect"
+- name: CountVectorsFeaturizer
 - name: DIETClassifier
-  epochs: 50
-  batch_strategy: "sequence"
-  similarity_type: "inner"
-  maximum_positive_similarity: 0.9
-  maximum_negative_similarity: 0
-  constrain_similarities: true
-  model_confidence: "softmax"
-  ranking_length: 3
-  entity_recognition: false
-  evaluate_every_number_of_epochs: -1
-  use_masked_language_model: true
-- name: "SpacyEntityExtractor"
-  # dimensions to extract
-  dimensions: ["PERSON", "LOC", "ORG", "PRODUCT", "LANGUAGE", "PERCENT"]
-- name: FallbackClassifier
+  epochs: 300
+  overlap_strategy: "intersect"
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/

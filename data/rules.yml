@@ -1,1 +1,43 @@
-version: "3.1"
+version: "2.0"
+
+rules:
+  - rule: say goodbye
+    steps:
+    - intent: goodbye
+    - action: utter_goodbye
+  
+  - rule: start bot from greet
+    steps:
+    - intent: greet
+    - action: utter_greet
+    - action: contacts_form
+    - active_loop: contacts_form
+  
+  - rule: start bot from job postings
+    steps:
+    - intent: get_jobs
+    - action: utter_greet
+    - action: contacts_form
+    - active_loop: contacts_form
+  
+  - rule: Submit Contacts Form
+    condition:
+    - active_loop: contacts_form
+    steps:
+    - action: contacts_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: utter_submit_contacts
+    - action: job_info_form
+    - active_loop: job_info_form
+  
+  - rule: Submit Job Info Form
+    condition:
+    - active_loop: job_info_form
+    steps:
+    - action: job_info_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: utter_goodbye
