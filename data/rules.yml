@@ -28,7 +28,7 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: utter_submit_contacts
+    - action: action_save_contacts
     - action: job_info_form
     - active_loop: job_info_form
   
@@ -40,4 +40,4 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: utter_goodbye
+    - action: action_check_candidate

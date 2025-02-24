@@ -1,0 +1,13 @@
+{
+  "0": "get_jobs",
+  "1": "goodbye",
+  "2": "greet",
+  "3": "inform_job_position",
+  "4": "inform_name",
+  "5": "inform_office_days",
+  "6": "inform_phone_number",
+  "7": "inform_salary",
+  "8": "inform_skills",
+  "9": "inform_vacancy",
+  "10": "inform_years"
+}

@@ -1,0 +1,9 @@
+{
+  "rule_only_slots": [
+    "candidate_ok"
+  ],
+  "rule_only_loops": [
+    "contacts_form",
+    "job_info_form"
+  ]
+}

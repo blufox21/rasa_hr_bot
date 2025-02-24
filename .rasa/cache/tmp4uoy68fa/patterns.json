@@ -1,0 +1,14 @@
+[
+  {
+    "name": "phone_number",
+    "pattern": "8\\d{10}"
+  },
+  {
+    "name": "phone_number",
+    "pattern": "\\+7\\d{10}"
+  },
+  {
+    "name": "salary",
+    "pattern": "\\d{5-7}"
+  }
+]

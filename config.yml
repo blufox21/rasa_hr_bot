@@ -22,15 +22,9 @@ pipeline:
   pooling: "mean"
 - name: RegexFeaturizer
   case_sensitive: False
-- name: RegexEntityExtractor
-  # text will be processed with case insensitive as default
-  case_sensitive: False
-  # use regexes to extract entities
-  use_regexes: True
-  overlap_strategy: "intersect"
 - name: CountVectorsFeaturizer
 - name: DIETClassifier
-  epochs: 300
+  epochs: 100
   overlap_strategy: "intersect"
 
 # Configuration for Rasa Core.

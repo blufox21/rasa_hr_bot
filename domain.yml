@@ -1,20 +1,37 @@
 version: "2.0"
 
 intents:
-- greet
-- inform_contacts
-- get_jobs
-- inform_job_info
-- goodbye
+  - greet:
+      use_entities: []
+  - inform_name:
+      use_entities: 
+          - name
+  - inform_phone_number:
+      use_entities: 
+          - phone_number
+  - inform_vacancy:
+      use_entities: 
+          - vacancy
+  - inform_salary:
+      use_entities:
+          - salary
+  - inform_job_position:
+      use_entities: []
+  - inform_years:
+      use_entities:
+          - years
+  - inform_skills:
+      use_entities: []
+  - get_jobs:
+      use_entities: []
+  - goodbye:
+      use_entities: []
 
 entities:
 - name
 - phone_number
 - salary
-- job_position
 - years
-- office_days
-- skill
 - vacancy
 
 slots:
@@ -23,11 +40,17 @@ slots:
     mappings:
     - type: from_entity
       entity: name
+      conditions:
+      - active_loop: contacts_form
+        requested_slot: name
   phone:
     type: any
     mappings:
     - type: from_entity
       entity: phone_number
+      conditions:
+      - active_loop: contacts_form
+        requested_slot: phone
   salary:
     type: float
     min_value: 0.0
@@ -35,21 +58,33 @@ slots:
     mappings:
     - type: from_entity
       entity: salary
+      conditions:
+      - active_loop: job_info_form
+        requested_slot: salary
   wanted_position:
     type: text
     mappings:
     - type: from_entity
       entity: vacancy
+      conditions:
+      - active_loop: contacts_form
+        requested_slot: wanted_position
   positions:
-    type: list
+    type: text
     mappings:
-    - type: from_entity
-      entity: job_position
+    - type: from_text
+      intent: inform_job_position
+      conditions:
+      - active_loop: job_info_form
+        requested_slot: positions
   work_skills:
-    type: list
+    type: text
     mappings:
-    - type: from_entity
-      entity: skill
+    - type: from_text
+      intent: inform_skills
+      conditions:
+      - active_loop: job_info_form
+        requested_slot: work_skills
   work_experience:
     type: float
     min_value: 0.0
@@ -57,32 +92,36 @@ slots:
     mappings:
     - type: from_entity
       entity: years
-  office_days:
-    type: float
-    min_value: 0.0
-    max_value: 7.0
+      conditions:
+      - active_loop: job_info_form
+        requested_slot: work_experience
+  candidate_ok:
+    type: bool
     mappings:
-    - type: from_entity
-      entity: office_days
+    - type: custom
 
 
 forms:
   contacts_form:
     ignored_intents: 
-    - inform_job_info
+    - inform_salary
+    - inform_job_postition
+    - inform_skills
+    - inform_years
     required_slots:
       - name 
       - phone
       - wanted_position
   job_info_form:
     ignored_intents: 
-    - inform_contacts
+    - inform_name
+    - inform_phone_number
+    - inform_vacancy
     required_slots:
       - positions
       - work_skills
       - work_experience
       - salary
-      - office_days
 
 responses:
   utter_greet:
@@ -102,8 +141,6 @@ responses:
     - text: "Какой у вас контактный номер?"
   utter_ask_wanted_position:
     - text: "У нас есть следующие вакансии: \n Project Manager \n Data Engineer \n Data Analyst \n Data Scientist \n MLOps Engineer \nПожалуйста, выберите одну из них."
-  utter_submit_contacts:
-    - text: Вас зовут {name}, ваш номер {phone} и вы хотите на позицию {wanted_position}?
   utter_ask_positions:
     - text: "Расскажите, пожалуйста, о вашем предыдущем опыте работы, на каких позицих работали?"
     - text: "Интересно узнать о вашем трудовом опыте. Не могли бы вы рассказать о каждой из должностей?"
@@ -117,23 +154,21 @@ responses:
     - text: "Пожалуйста, расскажите о своих основных навыках и компетенциях."
     - text: "Какие ключевые навыки вы можете предложить нашей команде?"
   utter_ask_salary:
-    - text: "Какие у вас жидания по зарплате?"
+    - text: "Какие у вас ожидания по зарплате?"
     - text: "Каковы ваши ожидания по зарплате на этой позиции?"
     - text: "Какую зарплату вы рассчитываете получать на данной должности?"
     - text: "Пожалуйста, поделитесь вашими ожиданиями по уровню зарплаты."
     - text: "Какова ваша желаемая зарплата на этой позиции?"
-  utter_ask_office_days:
-    - text: "Сколько дней в неделю вы готовы работать из офиса?"
-    - text: "Как часто вы готовы появляться в офисе (раз в неделю)?"
   utter_goodbye:
     - text: "Спасибо за участие! Удачи!"
-    - text: "Благодарим вас за интерес к вакансии! Мы свяжемся с вами позже."
+    - text: "Благодарим вас за интерес к вакансии!"
     - text: "Спасибо за ваш интерес к позции! Всего доброго."
 
 actions:
 - utter_goodbye
 - utter_greet
-- utter_submit_contacts
+- action_save_contacts
+- action_check_candidate
 
 session_config:
   session_expiration_time: 60
